@@ -1,4 +1,5 @@
 #include "tensor.h"
+#include<cuda_runtime.h>
 
 __global__ void fill_kernel(float* data, float val, int size){
     int idx = blockIdx.x * blockDim.x + threadIdx.x;
