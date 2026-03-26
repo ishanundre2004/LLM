@@ -3,14 +3,14 @@
 #include <cmath>
 
 __global__ void split_heads_kernel(
-    Tensor* input,
-    Tensor* output,
+    float* input,
+    float* output,
     int seq_len,
     int d_model,
     int num_heads,
     int d_k
 ){
-    int idx = blockDim.x  8 blockIdx.x + threadIdx.x;
+    int idx = blockDim.x * blockIdx.x + threadIdx.x;
     int total = seq_len * d_model;
     if (idx < total){
         int row = idx / d_model;
@@ -19,18 +19,18 @@ __global__ void split_heads_kernel(
         int head = col / d_k;
         int head_col = col % d_k;
 
-        int out_idx = 
+        int out_idx =
             head * (seq_len * d_k) +
             row * d_k +
             head_col;
-        
+
         output[out_idx] = input[idx];
     }
 }
 
 __global__ void concat_heads_kernel(
-    Tensor* input,
-    Tensor* output,
+    float* input,
+    float* output,
     int seq_len,
     int num_heads,
     int d_k
@@ -46,7 +46,7 @@ __global__ void concat_heads_kernel(
         int head_col = rem % d_k;
 
         int out_col = head * d_k + head_col;
-        int out_idx = row * (num_heads * d_k) + col;
+        int out_idx = row * (num_heads * d_k) + out_col;
 
         output[out_idx] = input[idx];
     }

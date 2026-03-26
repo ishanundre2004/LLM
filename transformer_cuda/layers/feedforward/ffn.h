@@ -1,7 +1,7 @@
 #ifndef FFN_H
 #define FFN_H
 
-#include "tensor.h"
+#include "../../tensor/tensor.h"
 
 void feedforward(
     Tensor& X,
@@ -10,6 +10,6 @@ void feedforward(
     Tensor& W2,
     Tensor& b2,
     Tensor& output
-)
+);
 
 #endif

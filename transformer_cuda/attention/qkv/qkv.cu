@@ -2,6 +2,30 @@
 #include <cuda_runtime.h>
 #include "qkv.h"
 
+__global__ void split_qkv_kernel(
+    float* qkv,
+    float* Q,
+    float* K,
+    float* V,
+    int seq_len,
+    int d_k
+)
+{
+    int idx = blockIdx.x * blockDim.x + threadIdx.x;
+    int total = seq_len * d_k;
+
+    if (idx >= total) return;
+
+    int row = idx / d_k;
+    int col = idx % d_k;
+
+    int base = row * (3 * d_k);
+
+    Q[idx] = qkv[base + col];
+    K[idx] = qkv[base + d_k + col];
+    V[idx] = qkv[base + 2*d_k + col];
+}
+
 void compute_qkv(
     Tensor& X,
     Tensor& Wqkv,
@@ -62,26 +86,3 @@ void compute_qkv(
     cublasDestroy(handle);
 }
 
-__global__ void split_qkv_kernel(
-    float* qkv,
-    float* Q,
-    float* K,
-    float* V,
-    int seq_len,
-    int d_k
-)
-{
-    int idx = blockIdx.x * blockDim.x + threadIdx.x;
-    int total = seq_len * d_k;
-
-    if (idx >= total) return;
-
-    int row = idx / d_k;
-    int col = idx % d_k;
-
-    int base = row * (3 * d_k);
-
-    Q[idx] = qkv[base + col];
-    K[idx] = qkv[base + d_k + col];
-    V[idx] = qkv[base + 2*d_k + col];
-}

@@ -1,6 +1,6 @@
 #include <math.h>
 #include <cuda_runtime.h>
-#include "fused_embedding_positional.h"
+#include "fused_embedding.h"
 
 __global__ void fused_embedding_positional_kernel(
     float* embedding,

@@ -1,7 +1,7 @@
 #ifndef LAYERNORM_H
 #define LAYERNORM_H
 
-#include "tensor.h"
+#include "../../tensor/tensor.h"
 
 void layernorm(Tensor& input, Tensor& output);
 

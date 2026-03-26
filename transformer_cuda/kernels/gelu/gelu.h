@@ -1,7 +1,7 @@
 #ifndef GELU_H
 #define GELU_H
 
-#include "tensor.h"
+#include "../../tensor/tensor.h"
 
 void gelu(Tensor& t);
 

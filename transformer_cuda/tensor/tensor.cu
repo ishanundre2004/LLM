@@ -1,5 +1,7 @@
 #include "tensor.h"
-#include<cuda_runtime.h>
+#include <cuda_runtime.h>
+#include <iostream>
+#include <algorithm>
 
 __global__ void fill_kernel(float* data, float val, int size){
     int idx = blockIdx.x * blockDim.x + threadIdx.x;
@@ -8,8 +10,6 @@ __global__ void fill_kernel(float* data, float val, int size){
         data[idx] = val;
     }
 }
-
-
 
 Tensor::Tensor(int r, int c){
     rows = r;
@@ -25,7 +25,7 @@ Tensor::~Tensor(){
 
 void Tensor::toGPU(float* host_data){
     size_t size = rows * cols * sizeof(float);
-    cudaMemcpy(data, host_data, size, cudaMemcpyHostToDevice );
+    cudaMemcpy(data, host_data, size, cudaMemcpyHostToDevice);
 }
 
 void Tensor::toCPU(float* host_data){
@@ -33,15 +33,17 @@ void Tensor::toCPU(float* host_data){
     cudaMemcpy(host_data, data, size, cudaMemcpyDeviceToHost);
 }
 
-void Tensor::print(int limit){
+void Tensor::print(int limit) const{
     int size = rows * cols;
     float* host = new float[size];
 
-    cudaMemcpy(host, data , size * sizeof(float), cudaMemcpyDeviceToHost);
+    cudaMemcpy(host, data, size * sizeof(float), cudaMemcpyDeviceToHost);
+
     for(int i = 0; i < std::min(size, limit); i++){
         std::cout << host[i] << " ";
     }
     std::cout << std::endl;
+
     delete[] host;
 }
 
@@ -50,7 +52,7 @@ void Tensor::fill(float value){
 
     int block = 256;
     int grid = (size + block - 1) / block;
-    fill_kernel<<<grid, block>>>(data, value , size);
 
+    fill_kernel<<<grid, block>>>(data, value, size);
     cudaDeviceSynchronize();
 }

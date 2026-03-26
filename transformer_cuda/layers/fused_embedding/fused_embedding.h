@@ -1,7 +1,7 @@
 #ifndef FUSED_EMBEDDING_POSITIONAL_H
 #define FUSED_EMBEDDING_POSITIONAL_H
 
-#include "tensor.h"
+#include "../../tensor/tensor.h"
 
 // Applies token embedding lookup + sinusoidal positional encoding (fused)
 // 

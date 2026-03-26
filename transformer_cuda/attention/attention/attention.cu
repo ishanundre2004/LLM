@@ -1,5 +1,5 @@
 #include "attention.h"
-#include "softmax.h"
+#include "../../kernels/softmax/softmax.h"
 
 #include <cuda_runtime.h>
 #include <cublas_v2.h>

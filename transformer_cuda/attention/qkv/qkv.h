@@ -1,7 +1,7 @@
 #ifndef QKV_H
 #define QKV_H
 
-#include "tensor.h"
+#include "../../tensor/tensor.h"
 
 void compute_qkv(
     Tensor& X,

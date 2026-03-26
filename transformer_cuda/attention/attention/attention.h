@@ -1,7 +1,7 @@
 #ifndef ATTENTION_H
 #define ATTENTION_H
 
-#include "tensor.h"
+#include "../../tensor/tensor.h"
 
 // Computes scaled dot-product attention:
 //

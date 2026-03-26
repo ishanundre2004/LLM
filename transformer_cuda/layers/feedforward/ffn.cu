@@ -1,42 +1,22 @@
 #include <cuda_runtime.h>
 #include <cublas_v2.h>
+#include <iostream>
+
 #include "ffn.h"
+#include "../../tensor/tensor.h"
 #include "../../kernels/gelu/gelu.h"
 #include "../../kernels/relu/relu.h"
 
+//////////////////////////////////////////////////////////////
+// BIAS ADDITION KERNEL
+//////////////////////////////////////////////////////////////
+
 __global__ void add_bias_kernel(
-    float *data,
-    float *bias,
+    float* data,
+    const float* bias,
     int rows,
     int cols
-){
-    int idx = blockDim.x * blockIdx.x + threadIdx.x;
-    int total = rows * cols;
-    if(idx < total ){
-        int col = idx % cols;
-        data[idx] += bias[col];
-    }
-}
-
-void add_bias(
-    Tensor& t,
-    Tensor& bias,
-){
-    int size = t.rows * t.cols;
-    int threads = 256;
-    int blocks = (size + threads -1)/threads;
-
-    add_bias_kernel<<<blocks, thread>>>(t.data, bias.data, t.rows, t.cols);
-}
-
-#include <cublas_v2.h>
-#include <cuda_runtime.h>
-#include "ffn.h"
-#include "../activations/gelu.h"
-#include "../activations/relu.h"
-
-// Bias addition kernel
-__global__ void add_bias(float* data, const float* bias, int rows, int cols)
+)
 {
     int idx = blockIdx.x * blockDim.x + threadIdx.x;
 
@@ -53,9 +33,19 @@ void addBias(Tensor& t, Tensor& bias)
     int threads = 256;
     int blocks = (size + threads - 1) / threads;
 
-    add_bias<<<blocks, threads>>>(t.data, bias.data, t.rows, t.cols);
+    add_bias_kernel<<<blocks, threads>>>(
+        t.data,
+        bias.data,
+        t.rows,
+        t.cols
+    );
+
     cudaDeviceSynchronize();
 }
+
+//////////////////////////////////////////////////////////////
+// FEEDFORWARD LAYER
+//////////////////////////////////////////////////////////////
 
 void feedforward(
     Tensor& X,
@@ -68,7 +58,7 @@ void feedforward(
 {
     int seq_len = X.rows;
     int d_model = X.cols;
-    int d_ff = W1.cols;
+    int d_ff    = W1.cols;
 
     Tensor H(seq_len, d_ff);
 
@@ -78,12 +68,14 @@ void feedforward(
     float alpha = 1.0f;
     float beta  = 0.0f;
 
+    //////////////////////////////////////////////////////////
     // H = X × W1
+    //////////////////////////////////////////////////////////
     cublasSgemm(
         handle,
         CUBLAS_OP_N,
         CUBLAS_OP_N,
-        d_ff,
+        d_ff,       // cols of W1
         seq_len,
         d_model,
         &alpha,
@@ -96,15 +88,20 @@ void feedforward(
         d_ff
     );
 
+    //////////////////////////////////////////////////////////
     // H += b1
+    //////////////////////////////////////////////////////////
     addBias(H, b1);
 
-    // Activation (GELU preferred)
+    //////////////////////////////////////////////////////////
+    // Activation
+    //////////////////////////////////////////////////////////
     gelu(H);
-    // If you want ReLU instead:
-    // relu(H);
+    // relu(H); // optional
 
+    //////////////////////////////////////////////////////////
     // output = H × W2
+    //////////////////////////////////////////////////////////
     cublasSgemm(
         handle,
         CUBLAS_OP_N,
@@ -122,10 +119,10 @@ void feedforward(
         d_model
     );
 
+    //////////////////////////////////////////////////////////
     // output += b2
+    //////////////////////////////////////////////////////////
     addBias(output, b2);
 
     cublasDestroy(handle);
 }
-
-
