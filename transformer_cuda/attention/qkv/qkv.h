@@ -11,4 +11,18 @@ void compute_qkv(
     Tensor& V
 );
 
+void matmul(
+    Tensor& A, 
+    Tensor& B, 
+    Tensor& C
+);
+
+void split_qkv(
+    Tensor& QKV, 
+    Tensor& Q, 
+    Tensor& K, 
+    Tensor& V
+);
+
+
 #endif
