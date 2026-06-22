@@ -1,0 +1,19 @@
+# ninja log v6
+79	12342	8036659013447504	CMakeFiles/tests.dir/C_/Users/undre/Desktop/CUDA/LLM/transformer_cuda/attention/qkv/qkv.cu.obj	dc6d32c61e38f51e
+71	9378	8037302567038916	CMakeFiles/tests.dir/test_matmul.cu.obj	56fc08690047669f
+79	9376	8037302567116100	CMakeFiles/tests.dir/test_transformer.cu.obj	c2f52e7e4b036a86
+117	11915	8036659013826997	CMakeFiles/tests.dir/C_/Users/undre/Desktop/CUDA/LLM/transformer_cuda/layers/residual_add/residual_add.cu.obj	65beae5aeb0fafe9
+63	8567	8036652487161945	CMakeFiles/tests.dir/test_runner.cu.obj	223cee4e4cd64138
+38	9379	8037302566689504	CMakeFiles/tests.dir/test_attention.cu.obj	84406312ff1d9818
+62	9382	8037302566943290	CMakeFiles/tests.dir/test_layernorm.cu.obj	c536e503bcd540aa
+55	9380	8037302566842654	CMakeFiles/tests.dir/test_gelu.cu.obj	ab92fb6dd18cd6ac
+18	1882	8037308309623138	build.ninja	9eed43a3df1182d2
+103	11928	8036659013699966	CMakeFiles/tests.dir/C_/Users/undre/Desktop/CUDA/LLM/transformer_cuda/layers/layernorm/layernorm.cu.obj	949027c1d9641b3e
+138	11932	8036659014046176	CMakeFiles/tests.dir/C_/Users/undre/Desktop/CUDA/LLM/transformer_cuda/kernels/gelu/gelu.cu.obj	d65a6753589a6800
+90	9366	8037302567220719	CMakeFiles/tests.dir/C_/Users/undre/Desktop/CUDA/LLM/transformer_cuda/attention/multihead/multihead.cu.obj	49af9b4134de1465
+95	12240	8036659013613933	CMakeFiles/tests.dir/C_/Users/undre/Desktop/CUDA/LLM/transformer_cuda/layers/fused_embedding/fused_embedding.cu.obj	7781e32e9af9cb2
+64	12364	8036659013290021	CMakeFiles/tests.dir/C_/Users/undre/Desktop/CUDA/LLM/transformer_cuda/tensor/tensor.cu.obj	5c6a48fd22478bae
+131	12380	8036659013960295	CMakeFiles/tests.dir/C_/Users/undre/Desktop/CUDA/LLM/transformer_cuda/model/transformer_block/transformer_block.cu.obj	dc800b963dc35bc8
+124	12696	8036659013904773	CMakeFiles/tests.dir/C_/Users/undre/Desktop/CUDA/LLM/transformer_cuda/model/transformer/transformer.cu.obj	354a50a0a391cd5b
+110	13285	8036659013760521	CMakeFiles/tests.dir/C_/Users/undre/Desktop/CUDA/LLM/transformer_cuda/layers/feedforward/ffn.cu.obj	80a3ca91018f7a65
+9382	10034	8037302660151067	tests.exe	ddca237726c20aa0

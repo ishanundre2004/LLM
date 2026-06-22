@@ -3,10 +3,9 @@
 
 #include "../../tensor/tensor.h"
 
-// For explicit size controls (useful when input may alias output or for partial views)
 void softmax(Tensor& input, Tensor& output, int rows, int cols);
-
-// Convenience wrapper for full tensor softmax
 void softmax(Tensor& input, Tensor& output);
+void softmax_scaled(Tensor& input, Tensor& output, float scale);
+void softmax_inplace(Tensor& input, float scale = 1.0f);
 
-#endif
+#endif // SOFTMAX_H

@@ -1,0 +1,13 @@
+cd /d "C:\Users\undre\Desktop\CUDA\LLM\transformer_cuda\tests"
+mkdir build
+cd build
+call "C:\Program Files\Microsoft Visual Studio\18\Community\VC\Auxiliary\Build\vcvars64.bat" x64
+cmake .. -G Ninja -DCMAKE_BUILD_TYPE=Release
+cmake --build .
+
+
+
+final commands to run :
+cmd /c "cd /d C:\Users\undre\Desktop\CUDA\LLM\transformer_cuda\tests && temp_build_runner.bat"
+cmd /c "cd /d C:\Users\undre\Desktop\CUDA\LLM\transformer_cuda\tests && temp_build_release.bat"
+cmd /c "cd /d C:\Users\undre\Desktop\CUDA\LLM\transformer_cuda\tests && vcvars_wrapper_build.bat"
